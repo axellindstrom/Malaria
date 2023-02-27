@@ -29,8 +29,17 @@ with open(input_file, 'r') as in_file, open(output_file, 'w') as output:
             scaffold_id[id] = seq
             GC_content = seq.count('C') + seq.count('G')
             AT_content = seq.count('A') + seq.count('T')
-            if GC_content/(GC_content + AT_content)*100 >GC or len(scaffold_id[id]) <= length:
+            
+            if round(GC_content/(GC_content + AT_content)*100) > GC or len(scaffold_id[id]) <= length:
                 del scaffold_id[id]
+            
+            try:
+                if len(scaffold_id[id]) <= length:
+                    del scaffold_id[id]
+                else:
+                    pass
+            except:
+                pass
 
             for key, item in scaffold_id.items():
                 output.write(f'{key}\n')
@@ -45,7 +54,7 @@ with open(input_file, 'r') as in_file, open(output_file, 'w') as output:
             seq += line.rstrip().upper()   
 
     scaffold_id[id] = seq
-    if ((seq.count('C') + seq.count('G'))/len(seq)*100) <GC or len(scaffold_id[id]) < length:
+    if round(((seq.count('C') + seq.count('G'))/len(seq)*100)) < GC or len(scaffold_id[id]) <= length:
         del scaffold_id[id]
 
     else:
