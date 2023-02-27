@@ -33,13 +33,10 @@ with open(input_file, 'r') as in_file, open(output_file, 'w') as output:
             if round(GC_content/(GC_content + AT_content)*100) > GC or len(scaffold_id[id]) <= length:
                 del scaffold_id[id]
             
-            try:
+            if id in scaffold_id:
                 if len(scaffold_id[id]) <= length:
                     del scaffold_id[id]
-                else:
-                    pass
-            except:
-                pass
+            
 
             for key, item in scaffold_id.items():
                 output.write(f'{key}\n')
@@ -57,13 +54,10 @@ with open(input_file, 'r') as in_file, open(output_file, 'w') as output:
     if round(((seq.count('C') + seq.count('G'))/len(seq)*100)) < GC:
         del scaffold_id[id]
 
-    try:
+    if id in scaffold_id:
         if len(scaffold_id[id]) <= length:
             del scaffold_id[id]
-        else:
-            pass
-    except:
-        pass
+       
 
     else:
         for key, item in scaffold_id.items():
