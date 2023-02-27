@@ -54,8 +54,16 @@ with open(input_file, 'r') as in_file, open(output_file, 'w') as output:
             seq += line.rstrip().upper()   
 
     scaffold_id[id] = seq
-    if round(((seq.count('C') + seq.count('G'))/len(seq)*100)) < GC or len(scaffold_id[id]) <= length:
+    if round(((seq.count('C') + seq.count('G'))/len(seq)*100)) < GC:
         del scaffold_id[id]
+
+    try:
+        if len(scaffold_id[id]) <= length:
+            del scaffold_id[id]
+        else:
+            pass
+    except:
+        pass
 
     else:
         for key, item in scaffold_id.items():
