@@ -1,4 +1,7 @@
-
+#!/usr/bin/env python3
+'''
+Usage: python3 scaffold.py -i [input file] -l [minimum sequence lenght] -g [maximum GC content] -o [output file]
+'''
 import argparse
 
 parser = argparse.ArgumentParser(description= 'Filter out contigs of specified length and specified GC content.')
@@ -51,9 +54,3 @@ with open(input_file, 'r') as in_file, open(output_file, 'w') as output:
             seq_row = [item[i:i + 60] for i in range(0, len(item), 60)]
             for row in seq_row:
                 output.write(f'{row}\n')
-
-
-
-
-
-
