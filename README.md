@@ -17,3 +17,8 @@ The **scaffold.py** script takes an input file with sequence data in FASTA forma
 For the gene prediction of *H.tartakovskyi* **GeneMark** was used. The minimum contig lenght was set to 3000 bp instead of the default 5000.
 
     gmes_petap.pl --ES --min_contig 3000 --sequence H_t33_scaffold.fasta
+
+# Convert gff and genome file to fasta sequence
+To convert the gff and genome file to fasta files the gffParse.pl was used. The parser take the filtered genome file as an input and the gtf file with gene prediction. -p was added as a flag to output an amino acid fasta file and -c specify that the reading fram should be shifted if internal stop codons are found.
+    
+    gffParse.pl -i ./H_t33_scaffold.fasta -g genemark.gtf -p -c
