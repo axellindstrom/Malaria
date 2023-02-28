@@ -22,3 +22,21 @@ For the gene prediction of *H.tartakovskyi* **GeneMark** was used. The minimum c
 To convert the gff and genome file to fasta files the gffParse.pl was used. The parser take the filtered genome file as an input and the gtf file with gene prediction. -p was added as a flag to output an amino acid fasta file and -c specify that the reading fram should be shifted if internal stop codons are found.
     
     gffParse.pl -i ./H_t33_scaffold.fasta -g genemark.gtf -p -c
+
+# Classify origin of genes
+In order to find genes that belong to the host and is not of intresst the nucloteide file from the previus step was used to do a blastx seach against SwissProt.
+
+    blastx -query gffParse.fna -out blastx_output -db SwissProt -num_threads 10
+
+# Parse queries with non avian origin
+To exclude all queries with a top match of avian origin the output from the blastx search was matched against taxonomy information information from uniprot.
+
+    example usage: python3 datPars.py -b blastx_output -o blast_pars.fasta -u uniprot_sprot.dat -f gffParse.fna
+
+    -b      --blast_file    Blast file containing matches from a blast search.
+    -o      --output        Name of output file.
+    -u      --uniprot       File containing information about gene ID and origin.
+    -f      --fasta_file    Fasta file with contigs to sort.
+
+
+
