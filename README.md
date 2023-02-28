@@ -12,3 +12,8 @@ The **scaffold.py** script takes an input file with sequence data in FASTA forma
     -o      --output    name of output file (default is set to output.fasta).
     -l      --lenght    Minimum length of sequences to keep (default is set to 3000 bp).
     -g      --GCcontent Maximum GC content of the sequences to be kept (default is set to 50%).
+
+# Gene prediction of *H.tartakovskyi*
+For the gene prediction of *H.tartakovskyi* **GeneMark** was used. The minimum contig lenght was set to 3000 bp instead of the default 5000.
+
+    gmes_petap.pl --ES --min_contig 3000 --sequence H_t33_scaffold.fasta
