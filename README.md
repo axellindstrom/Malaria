@@ -40,3 +40,32 @@ To exclude all queries with a top match of avian origin the output from the blas
 
 
 
+# Calculating geneome size, number of genes and GC content
+
+## Genome size
+    for file in *.genome; do echo $file; cat $file | grep -v ">" | tr -d '\n' | wc -c; done
+
+## GC content
+    for file in *.genome; do GC=$(cat $file | grep -v ">" | grep -o [CGcg] | wc -c); All=$(cat $file | grep -v ">" | grep -o [aAtTcCgG] | wc -c); echo $file; echo "scale=2;$GC/$All*100" | bc -l; done
+
+## Number of genes
+
+### gtf files
+    for file in *.gtf; do echo $file; cat $file | cut -f3 | grep -w gene | wc -l; done
+
+### gff file 
+    cat Tg.gff | grep -w -c "start_codon"
+
+### Terakivskyi
+    cat 4_filter_out_host/blast_pars.fasta | grep ">" | tr -d ">" | tr -d "\n" | cut -f1 | wc -l
+
+| | Species |  Host  |  Genome size  |  Genes  |  Genomic GC (%)|
+|-|---------|--------|---------------|---------|----------------|
+|1|Plasmodium berghei|rodents|17954629|7235|23.71|
+|2|	Plasmodium cynomolgi    | macaques  | 26181343  |5787   |40.37|
+|3|	Plasmodium falciparum   | humans  | 23270305   | 5207    | 19.36|
+|4|	Plasmodium knowlesi | lemures   | 23462346  | 4953  | 38.83|
+|5|	Plasmodium vivax    | humans   | 27007701    | 5682    | 42.27|
+|6|	Plasmodium yoelii   | rodents   | 22222369  | 4919  | 21.77|
+|7|	Haemoproteus tartakovskyi   | birds   | 8381238 | 3718    | 28.66|
+|8|	Toxoplasma gondii | humans | 128105889  | 15564 | 52.35|
