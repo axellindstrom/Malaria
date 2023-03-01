@@ -43,22 +43,33 @@ To exclude all queries with a top match of avian origin the output from the blas
 # Calculating geneome size, number of genes and GC content
 
 ## Genome size
+For calculating the genome size of each species the following bash command was used.
+
     for file in *.genome; do echo $file; cat $file | grep -v ">" | tr -d '\n' | wc -c; done
 
 ## GC content
+For calculating the GC content for the **plasmodium** species and **toxoplasma** the following bash command was used.
+
     for file in *.genome; do GC=$(cat $file | grep -v ">" | grep -o [CGcg] | wc -c); All=$(cat $file | grep -v ">" | grep -o [aAtTcCgG] | wc -c); echo $file; echo "scale=2;$GC/$All*100" | bc -l; done
 
 ## Number of genes
 
 ### gtf files
+To calculate the number of genes for the **plasmodium** species the following bash command was used.    
+
     for file in *.gtf; do echo $file; cat $file | cut -f3 | grep -w gene | wc -l; done
 
 ### gff file 
+To calculate the number of genes for the **toxoplasma** the following bash command was used.
+
     cat Tg.gff | grep -w -c "start_codon"
 
-### Terakivskyi
+### Tartakovskyi
+To calculate the number of genes 
+
     cat 4_filter_out_host/blast_pars.fasta | grep ">" | tr -d ">" | tr -d "\n" | cut -f1 | wc -l
 
+### Results
 | | Species |  Host  |  Genome size  |  Genes  |  Genomic GC (%)|
 |-|---------|--------|---------------|---------|----------------|
 |1|Plasmodium berghei|rodents|17954629|7235|23.71|
