@@ -136,13 +136,16 @@ To get all completed and duplicated genes:
 
     for file in [HPT]*; do cat $file/run_apicomplexa_odb10/full_table.tsv | grep -v "#" | grep -v -w Fragmented | grep -v -w Missing | cut -f1 | sort | uniq >> all_BUSCOs.txt; done
 
+    Touch all_common_BUSCOs.txt
+
 To get all BUSCOs that are present in all species:
 
-    cat all_BUSCOs.txt | sort | uniq -c | grep -w 7 | cut -d " " -f8
+    cat all_BUSCOs.txt | sort | uniq -c | grep -w 8 | cut -d " " -f8 >> all_common_BUSCOs.txt
+
 
 To get the number:
 
-    cat all_BUSCOs.txt | sort | uniq -c | grep -w 7 | cut -d " " -f8 | wc -l
+    cat all_BUSCOs.txt | sort | uniq -c | grep -w 8 | cut -d " " -f8 | wc -l
 
 181 BUSCOs are present in all the species (Toxoplasma excluded).
 
