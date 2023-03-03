@@ -117,7 +117,7 @@ A busco analysis was performed with the faa file from all species by running the
 
 To get information of complete, missing and fragmented buscos for each species:
 
-    for file in [HP]*; do echo $file; cat $file/run_apicomplexa_odb10/full_table.tsv | grep -v "#" | cut -f2 | sort | uniq -c; totaldup=$(cat $file/run_apicomplexa_odb10/full_table.tsv | grep -w Duplicated | cut -f1 | sort | uniq -c | wc -l); echo $totaldup 'number of total dublicated BUSCOs'; done
+    for file in [HPT]*; do echo $file; cat $file/run_apicomplexa_odb10/full_table.tsv | grep -v "#" | cut -f2 | sort | uniq -c; totaldup=$(cat $file/run_apicomplexa_odb10/full_table.tsv | grep -w Duplicated | cut -f1 | sort | uniq -c | wc -l); echo $totaldup 'number of total dublicated BUSCOs'; done
 
 ### Results
 Busco did run for all except Toxoplasma.
@@ -130,8 +130,11 @@ Busco did run for all except Toxoplasma.
 |Pk|322|1|3|120|
 |Pv|435|2|0|9|
 |Py|433|1|3|9|
+|Tg|4|762|24|38|
 
-    for file in [HP]*; do cat $file/run_apicomplexa_odb10/full_table.tsv | grep -v "#" | cut -f1 | sort | uniq >> all_BUSCOs.txt; done
+To get all completed and duplicated genes:
+
+    for file in [HPT]*; do cat $file/run_apicomplexa_odb10/full_table.tsv | grep -v "#" | grep -v -w Fragmented | grep -v -w Missing | cut -f1 | sort | uniq >> all_BUSCOs.txt; done
 
 To get all BUSCOs that are present in all species:
 
@@ -141,4 +144,34 @@ To get the number:
 
     cat all_BUSCOs.txt | sort | uniq -c | grep -w 7 | cut -d " " -f8 | wc -l
 
-446 BUSCOs are present in all the species.
+181 BUSCOs are present in all the species (Toxoplasma excluded).
+
+
+## Compile all ortholog genes found in all species
+BUSCO2faa.py was used.
+
+
+## Alignment
+clustalo was used to align the 181 common amino acid sequences.
+
+    for file in ../6_Busco/output/*; do id=$(echo ${file} | cut -d '/' -f4 | tr -d '.faa'); echo $id; clustalo -i $file -o ${id}_aligned.faa -v; done
+
+## Trees
+12345 was set as a seed. 
+
+    for file in ../7_Alignment/*; do id=$(echo $file | cut -d "/" -f3 | cut -d _ -f1); raxmlHPC -s $file -n ${id}.tre -o Tg -m PROTGAMMABLOSUM62 -p 12345; done
+
+All result files were concatinated:
+
+    for file in ./*result*; do cat $file >> res.tre; done
+
+All parsimony files were concatinated:
+
+    for file in ./*parsi*; do cat $file >> pars.tre; done
+
+All bestTree files were concatinated:
+
+    for file in ./*bestT*; do cat $file >> best.tre; done
+
+
+the res.tre best.tre and pars.tre file was then used in *phylip consense*, Tg was set as an outgroup and 2 trees from each file was produced. One unrooted tree and one rooted tree. 
