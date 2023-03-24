@@ -1,5 +1,13 @@
 #!/usr/bin/env python3
 
+'''This script takes a list of common BUSCO ids and extracts the corresponding gene id from each species.
+The gene id is then used to extract the gene sequence from the corresponding faa file.
+The gene sequence is then written to a new file with the BUSCO id as the file name.
+The script assumes that the BUSCO output folder is in the working directory and that the faa files are in a folder called "FAA" in the working directory.
+The script also assumes that the BUSCO output folder is named "6_Busco" and that the faa files are in a folder called "5_gff_fasta" in the working directory.
+usage: python3 BUSCO2faa.py
+date: 2022-03-14
+author: Axel Lindström'''
 
 
 from collections import defaultdict
